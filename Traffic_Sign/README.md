@@ -21,4 +21,4 @@ ___
 >> Accuracy: 98.41%
 >>> Training time: 4H 8M
 >>>> Epochs: Estimated trianing of 200 epochs but model traing in NO.22 epoch have best accuracy
-![](/attactment/attactment_1.jpg "attactment_1")
+![](/attactment/attactment_1.jpg "attactment1")
