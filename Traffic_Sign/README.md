@@ -1,6 +1,6 @@
 # Traffic Signal Recognition
 
-#### For this era of the technologically advanced, develop of the autonomous vehicles is the possible significant transportation in the future. Autonomous vehicles when driving on the road need to detect the location of traffic signs and identify the current traffic signs and determine the direction or speed of travel. I want to made this traffic sign recognition system to front let camera of vehicle detect traffic signs and study how the system can be applied to autonomous vehicles.
+#### For this era of the technologically advanced, the development of autonomous vehicles is a possible significant transportation option in the future. Autonomous vehicles, when driving on the road, need to detect the location of traffic signs and identify the current traffic signs and determine the direction or speed of travel. I want to make a traffic sign recognition system using to front camera of a vehicle to detect traffic signs and study how the system can be applied to autonomous vehicles
 ___
 ### Technologies and Tools
 1. Object Detection
@@ -13,17 +13,22 @@ ___
 <https://www.kaggle.com/datasets/shanmukh05/traffic-sign-cropped>
 ___
 ### System structure and Experiment
-> Classify of traffic signal
->> Download photo for 42 types of traffic signal from Kaggle but only choose 23 types of traffic singal from Taiwan usually used that it totally have 15,120 pcs photo. 
->>> Use the VGG16 Model to train my model
+* Classify of traffic signal
++ Transfer Learning
+1. Download photos for 42 types of traffic signals from Kaggle, but only choose 23 types of traffic singals from Taiwan usually used that which totals 15,120 photos
+2. Use the VGG16 Model to train my model
 
-> Display accuracy of VGG16 Model
->> Accuracy: 98.41%
->>> Training time: 4H 8M
->>>> Epochs: Estimated trianing of 200 epochs but model traing in NO.22 epoch have best accuracy
+* Display accuracy of VGG16 Model
+1. Accuracy: 98.41%
+2. Training time: 4H 8M
+3. Epochs: Estimated training of 200 epochs, but model training in  epoch 22 has the best accuracy
 ### Epoch
-![](/attactment/attactment1.jpg "attactment1")
-![](/attactment/attactment1.png "attactment11")
 ![](https://github.com/calvink11/my_project/blob/master/Traffic_Sign/attactment/attactment1.jpg?raw=true)
 ### Accuracy
-![](/attactment/attactment2.jpg "attactment2")
+![](https://github.com/calvink11/my_project/blob/master/Traffic_Sign/attactment/attactment2.jpg?raw=true)
+
+* System of traffic signal recognition
++ Training model of Yolov5 for detecting traffic signals
+1. Choose 21 types of traffic signals which total 4,457 photos
+2. Use LabelImg to draw a square mark for the traffic signal on each photo and save the format of the mark vcc xml
+3.  
