@@ -15,10 +15,10 @@ ___
 ### System structure and Experiment
 > Classify of traffic signal
 >> Download photo for 42 types of traffic signal from Kaggle but only choose 23 types of traffic singal from Taiwan usually used that it totally have 15,120 pcs photo. 
->> Use the VGG16 Model to train my model
+>>> Use the VGG16 Model to train my model
 
 > Display accuracy of VGG16 Model
 >> Accuracy: 98.41%
->> Training time: 4H 8M
->> Epochs: Estimated trianing of 200 epochs but model traing in NO.22 epoch have best accuracy
+>>> Training time: 4H 8M
+>>>> Epochs: Estimated trianing of 200 epochs but model traing in NO.22 epoch have best accuracy
 ![](/attactment/attactment_1.jpg "attactment_1")
