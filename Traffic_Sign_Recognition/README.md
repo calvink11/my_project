@@ -23,10 +23,10 @@ ___
 2. Training time: 4H 8M
 3. Epochs: Estimated training of 200 epochs, but model training in  epoch 22 has the best accuracy
 ### Epoch
-![attacment1](/attactment/attactment1.jpg)
-![](https://github.com/calvink11/my_project/blob/master/Traffic_Sign/attactment/attactment1.jpg?raw=true)
+![attachment1](/attachment/attachment1.jpg)
+![](https://github.com/calvink11/my_project/blob/master/Traffic_Sign_Recognition/attachment/attachment1.jpg?raw=true)
 ### Accuracy
-![](https://github.com/calvink11/my_project/blob/master/Traffic_Sign/attactment/attactment2.jpg?raw=true)
+![](https://github.com/calvink11/my_project/blob/master/Traffic_Sign_Recognition/attachment/attachment2.jpg?raw=true)
 
 * System of traffic signal recognition
 2. Training model of Yolov5 for detecting traffic signals
