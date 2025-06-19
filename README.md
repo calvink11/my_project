@@ -4,4 +4,4 @@
 
 
 # Project
-* Traffic Sign Recognition
+* Traffic Signal Recognition
