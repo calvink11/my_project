@@ -14,21 +14,22 @@ ___
 ___
 ### System structure and Experiment
 * Classify of traffic signal
-+ Transfer Learning
-1. Download photos for 42 types of traffic signals from Kaggle, but only choose 23 types of traffic singals from Taiwan usually used that which totals 15,120 photos
-2. Use the VGG16 Model to train my model
+1. Transfer Learning
+    1. Download photos for 42 types of traffic signals from Kaggle, but only choose 23 types of traffic singals from Taiwan usually used that which totals 15,120 photos
+    2. Use the VGG16 Model to train my model
 
 * Display accuracy of VGG16 Model
 1. Accuracy: 98.41%
 2. Training time: 4H 8M
 3. Epochs: Estimated training of 200 epochs, but model training in  epoch 22 has the best accuracy
 ### Epoch
+![attacment1](/attachment/attachment1.png)
 ![](https://github.com/calvink11/my_project/blob/master/Traffic_Sign/attactment/attactment1.jpg?raw=true)
 ### Accuracy
 ![](https://github.com/calvink11/my_project/blob/master/Traffic_Sign/attactment/attactment2.jpg?raw=true)
 
 * System of traffic signal recognition
-+ Training model of Yolov5 for detecting traffic signals
-1. Choose 21 types of traffic signals which total 4,457 photos
-2. Use LabelImg to draw a square mark for the traffic signal on each photo and save the format of the mark vcc xml
-3.  
+2. Training model of Yolov5 for detecting traffic signals
+    1. Choose 21 types of traffic signals which total 4,457 photos
+    2. Use LabelImg to draw a square mark for the traffic signal on each photo and save the format of the mark vcc xml
+    3.  
