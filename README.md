@@ -4,5 +4,4 @@
 
 
 # Project
-___
-### Traffic Sign Recognition
+* Traffic Sign Recognition
