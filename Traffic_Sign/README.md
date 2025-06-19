@@ -23,6 +23,6 @@ ___
 >>>> Epochs: Estimated trianing of 200 epochs but model traing in NO.22 epoch have best accuracy
 ![](/attactment/attactment1.jpg "attactment1")
 ![](/attactment/attactment1.png "attactment11")
-![](/attactment/attactment1.png "attactment1111")
+![](https://github.com/calvink11/my_project/blob/master/Traffic_Sign/attactment/attactment1.jpg?raw=true)
 ### Accuracy
 ![](/attactment/attactment2.jpg "attactment2")
