@@ -23,7 +23,7 @@ ___
 2. Training time: 4H 8M
 3. Epochs: Estimated training of 200 epochs, but model training in  epoch 22 has the best accuracy
 ### Epoch
-![attacment1](/Traffic_Sign/attachment/attachment1.jpg)
+![attacment1](/attactment/attactment1.jpg)
 ![](https://github.com/calvink11/my_project/blob/master/Traffic_Sign/attactment/attactment1.jpg?raw=true)
 ### Accuracy
 ![](https://github.com/calvink11/my_project/blob/master/Traffic_Sign/attactment/attactment2.jpg?raw=true)
