@@ -16,7 +16,7 @@ width="1200"/>
 5. Create different functions on the website
 
 ### Display result
-*   Function1: 
+*   Function1: Analyze of Top person
     <img src="/Sentiment Analysis based on AI/attachment/attachment7.png" alt="left" width="700"/>
 *   Function2: 
     <img src="/Sentiment Analysis based on AI/attachment/attachment8.png" alt="left" width="700"/>
