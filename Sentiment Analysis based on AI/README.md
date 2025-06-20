@@ -4,11 +4,11 @@
 
 1. Set up an app with BeautifulSoup to collect the daily news from the website
 2. Get the data and save to Sqlite database
-<img src="/Sentiment Analysis based on AI/attachment/attachment1.png" alt="isolated" width="500"/>
+<img src="/Sentiment Analysis based on AI/attachment/attachment1.png" alt="isolated" width="450"/>
 3. Use data from database and use CKIP-style Chinese NLP tools to analyze and save a new table to database
 <img src="/Sentiment Analysis based on AI/attachment/attachment2.png" alt="isolated" 
-width="900"/>
-<img src="/Sentiment Analysis based on AI/attachment/attachment3.png" alt="isolated" width="500"/>
+width="1200"/>
+<img src="/Sentiment Analysis based on AI/attachment/attachment3.png" alt="isolated" width="450"/>
 4. Set up a Django server
 5. Create different functions on the website
 
