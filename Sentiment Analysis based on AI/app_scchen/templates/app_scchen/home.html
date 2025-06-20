@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>政治聲量觀察</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Favicons -->
+    <link href="static/img/favicon.png" rel="icon" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        {% include 'navbar.html' %}
+
+        <div class="col-lg-12">
+          <h1>柯文哲聲量觀察</h1>
+          <p>你關心的人事物</p>
+        </div>
+
+        <!-- 顯示區塊-->
+        <div class="col-lg-6 mb-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="h6 text-uppercase mb-0">
+                資料週期:資料截止時間6月8日前
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <!-- Leaderboard Container -->
+                <div class="container">
+                  <!-- Leaderboard Heading -->
+                  <h3>網路聲量</h3>
+                  <p>
+                    網路聲量是什麼？
+                    新聞報導有多少篇新聞提及這組關鍵字，聲量越高表示能見度越高。
+                  </p>
+                  <p>總篇數:有多少篇新聞提到; 總次數:在相關新聞中被提到多少次</p>
+
+                  <hr />
+                  <!-- Leaderboard Content -->
+                  <div id="share_of_voice"></div>
+                </div>
+                <!-- /.container -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 區塊結束-->
+
+        <!-- 繪圖區塊-->
+        <div class="col-lg-6 mb-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="h6 text-uppercase mb-0">聲量分布情況</h3>
+            </div>
+            <div class="card-body">
+              <!-- description -->
+              <h3>依據新聞類別統計網路聲量</h3>
+              <p>在哪一類別的新聞中被報導最多篇?</p>
+              <hr />
+              <canvas id="bar_chart"></canvas>
+            </div>
+          </div>
+        </div>
+        <!-- 區塊結束-->
+
+        <!-- 顯示區塊-->
+        <div class="col-lg-6 mb-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="h6 text-uppercase mb-0">聲量變化</h3>
+            </div>
+            <div class="card-body">
+              <!-- description -->
+              <h3>依據時間顯示聲量的變化</h3>
+              <p>在哪個時間點被新聞報導最多?</p>
+              <hr />
+              <canvas id="line_chart"></canvas>
+            </div>
+          </div>
+        </div>
+        <!-- 區塊結束-->
+      </div>
+      <!-- row結束-->
+    </div>
+    <!-- container結束-->
+  </body>
+</html>
+<!-- jQuery指令用到的js-->
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<!-- 繪製line chart會用到，必須在chartjs之前先載入 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+
+<!-- chartjs圖js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+
+<script>
+  // 字串格式函數 先載入 讓後面的程式可以使用
+  //Customize the String.format()
+  //reference: https://www.cnblogs.com/taoweiji/p/3260883.html
+
+  // let result = "{0}----{1}".format("xx","yy")
+  String.prototype.format = function () {
+    var result = this;
+    if (arguments.length == 0) return null;
+    for (var i = 0; i < arguments.length; i++) {
+      var re = new RegExp("\\{" + i + "\\}", "gm");
+      result = result.replace(re, arguments[i]);
+    }
+    return result;
+  };
+
+  // Another alternative way
+  // let result = String.format("{0}  {1}", "Apple","Pineapple")
+  String.format = function () {
+    if (arguments.length == 0) return null;
+    var str = arguments[0];
+    for (var i = 1; i < arguments.length; i++) {
+      var re = new RegExp("\\{" + (i - 1) + "\\}", "gm");
+      str = str.replace(re, arguments[i]);
+    }
+    return str;
+  };
+</script>
+
+<script>
+
+  // How does JavaScript read data from Django server
+  // (1)使用Ajax與後端要資料
+  // (2)讀取Django後端送過來的資料 變數名稱寫在兩個大括弧中間即可
+  // 加上 safe 是不讓Django做一些特殊符號的代號轉換(XSS安全機制)，否則我們拿到的資料顯示會有錯誤
+
+  const freqByDate = {{ freqByDate| safe }}; // for line chart
+  const freqByCate = {{freqByCate|safe}}; // for line chart
+  const news_category = {{category|safe}}; // for bar chart
+  const num_occurrence = {{num_occurrence|safe}};
+  const num_frequency = {{num_frequency|safe}};
+  const photo ="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/%E6%9F%AF%E6%96%87%E5%93%B2_IMG_9322-1_%2814300234412%29_%28cropped%29.jpg/250px-%E6%9F%AF%E6%96%87%E5%93%B2_IMG_9322-1_%2814300234412%29_%28cropped%29.jpg";
+
+  //console.log(num_occurrence);
+  //console.log(num_frequency);
+  //console.log(news_category);
+  //console.log(freqByCate);
+  //console.log(freqByDate);
+
+  //display data and show chart
+  displayShareOfVoice();
+  drawBarChart();
+  showLineChart();
+
+  // *****************
+  // Function for displaying the share of voice
+  function displayShareOfVoice() {
+    // define a html block 一個區塊
+    let html_snippet = `
+          <div class="row">
+              <div class="col-md-4">
+                  <a href="#">
+                      <img class="img-fluid rounded mb-3 mb-md-0" src={0}>
+                  </a>
+              </div>
+              <div class="col-md-8">
+                  <h1>總篇數:{1}篇</h1>
+                  <h1>總次數:{2}次</h1>
+              </div>
+          </div>
+          <hr>`;
+    //填入資料
+    html_snippet = html_snippet.format(photo, num_occurrence, num_frequency);
+
+    const new_div = document.createElement("div");
+    new_div.innerHTML += html_snippet;
+
+    document.getElementById("share_of_voice").appendChild(new_div);
+  }
+
+  // *****************
+  // Chart.defaults.global.defaultFontSize = 15;
+  // 繪製長條圖的函數
+  function drawBarChart() {
+    const freq_values = freqByCate;
+    const news_categories = news_category;
+
+    //console.log(freq_values);
+
+    // data for chart
+    let data = {
+      labels: news_categories, //x axis 橫坐標軸
+      datasets: [
+        {
+          label: "柯文哲聲量",//chart標題
+          data: freq_values, //縱軸數值
+          backgroundColor: randomColors(freq_values.length),
+          borderColor: randomColors(freq_values.length),
+          borderWidth: 1,
+        },
+      ],
+    };
+    // options for chart,  y axis value begins at zero
+    let options = {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true, //從0開始
+              responsive: true //符合響應式
+            },
+          },
+        ],
+      },
+    };
+
+    // get chart id from html
+    const barChartElem = document.getElementById("bar_chart");
+    // new a bar chart
+    new Chart(barChartElem, {
+      type: "bar",
+      data: data,
+      options: options,
+    });
+  }
+
+  // *****************
+  // Line chart
+  function showLineChart() {
+    const lineChartElem = document
+      .getElementById("line_chart")
+      .getContext("2d");
+
+      const freq_values = freqByDate;
+
+    const myoptions = {
+      type: "line",
+      data: {
+        datasets: [
+          {
+            label: "s2",
+            borderColor: randomColors(1),
+            backgroundColor: randomColors(1),
+            borderWidth: 2,
+            data: freq_values,
+          },
+        ],
+      },
+      options: {
+        legend: {
+          display: false,
+        },
+        scales: {
+          xAxes: [
+            {
+              type: "time",
+              time: {
+                unit: "day",
+                displayFormats: {
+                  //day: 'DD-MM-YYYY'
+                  day: "MM/DD",
+                },
+              },
+            },
+          ],
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true, //從0開始
+                responsive: true, //符合響應式
+              },
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: "出現次數",
+              },
+            },
+          ],
+        },
+      },
+    };
+
+    // 檢查line_chart變數是否存在，如果存在，表示已經有之前畫的圖，必須要先清除之後，再畫新的圖。否則會有新舊圖重疊現象
+    //用以下這種方式檢查與清除舊圖。window指的是這個頁面，這個頁面有很多變數存在，檢查line_chart是否存在，若有存在，必須要先清除之後，再畫新的圖。否則會有新舊圖重疊現象
+    if (window.time_line_chart) {
+      time_line_chart.destroy();
+    }
+
+    // 畫一張新圖(產生一個圖物件變數名稱為line_chart)
+    // 必須全域變數--注意:前面不要有let, var, const等修飾詞
+    // 理由: 我們要讓它存在於網頁全域變數，
+    // 這樣我們才方便判斷是否有前一次的圖，如果存在有，要刪除之，否則，很多張圖會疊在一起
+    time_line_chart = new Chart(lineChartElem, myoptions);
+  }
+
+  // randomize color
+  function randomColors(length) {
+    var pool = [];
+    for (i = 0; i < length; i++) {
+      pool.push(dynamicColors());
+    }
+    return pool;
+  }
+
+  function dynamicColors() {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgba(" + r + "," + g + "," + b + ", 0.3)";
+  }
+</script>

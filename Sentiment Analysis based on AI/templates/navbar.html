@@ -1,0 +1,50 @@
+<div class="col-lg-12 mb-2">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+        <a class="navbar-brand" href="#">今日新聞 NOWnews ─ 輿情大數據</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'app_top_keyword:home' %}">熱門關鍵詞分析</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'app_top_person:home' %}">熱門人物排行分析</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'app_top_ner:home' %}">NER熱門分析</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'app_user_keyword:home' %}">你的關鍵詞熱門度分析</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'namespace_user_keyword_association:home' %}">全文檢索與關聯新聞分析</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'namespace_user_keyword_sentiment:home' %}">你的關鍵詞情緒分析</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'namespace_news_rcmd_bert:home' %}">新聞瀏覽與推薦(Bert)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'app_top_person_yesterday:home' %}" style="color: green">昨日誰最大</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'app_correlation:home' %}" style="color: green">事件人物聲量相關分析</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'app_scchen:home' %}" style="color: green">文哲聲量我最大</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'namespace_taipei_mayor:home' %}" style="color: green">台北市長選舉聲量觀測站</a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</div>

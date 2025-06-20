@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>輿情分析平台</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- css style for displaying news content and the number of lines to be displayed -->
+    <style>
+      .only-some-lines-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 6;
+        /* number of lines to show */
+        -webkit-box-orient: vertical;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        {% comment %} {% include 'navbar.html' %} {% endcomment %}
+
+        <!-- 大標題與任務說明 -->
+        <div class="col-lg-12">
+          <h2>新聞檢索與相似新聞推薦系統</h2>
+          <p>
+            (1)概念:取得每篇新聞的向量(768維度)表達，計算兩兩相似度，排序相似度，取得數篇相關新聞推薦。<br>
+            (2)新聞向量是BERT模型產生的，BERT語言模型是Google的一種NLP產品，它是由一種叫做Transformer(變形金剛、變壓器)的深度學習模型所訓練，訓練語料非常龐大:Wikipedia(約25億字)和Google的BooksCorpus(約8億字)。Google使用64個TPU訓練整整4天，花費超過22萬台幣，真正的成本還要包含開發實驗階段訓練失敗的次數、研究人員的薪資等。<br>
+            (3)BERT的下游任務除了這裡的新聞推薦之外，還可以用在NLP理解的各種任務，包括我們下一次會提到的情緒分類、新聞分類等任務。<br>
+            (4)BERT目前已經發展成一個大家族，它可以讓電腦深入了解人類的語言與世界！🚀
+          </p>
+        </div>
+        <!-- 新聞類別與檢索區塊 -->
+        <div class="col-lg-12 mb-2">
+          <nav
+            class="navbar navbar-expand-lg navbar-light"
+            style="background-color: #e3f2fd"
+          >
+            <a class="navbar-brand" href="/">昨日新聞搜搜</a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item pl-2 mt-3">
+                  <div class="form-group row">
+                    <div class="col-md-12 select">
+                      <select
+                        id="cate_select"
+                        name="news_category"
+                        class="form-control"
+                      >
+                      <option>焦點</option>
+                      <option>要聞</option>
+                      <option>即時</option>
+                      <option>娛樂</option>
+                      <option>新奇</option>
+                      <option>生活</option>
+                      <option>財經</option>
+                      <option>專題</option>
+                      <option>全球</option>
+                      <option>運動</option>
+                      </select>
+                    </div>
+                  </div>
+                </li>
+
+                <li class="nav-item active pl-2 mt-3">
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      id="input_keywords"
+                      class="form-control"
+                      placeholder="輸入多個片段文字(and)"
+                    />
+                    <div class="input-group-append">
+                      <button
+                        type="button"
+                        class="btn btn-outline-success"
+                        id="btn_keyword_search"
+                      >
+                        新聞檢索
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+
+              <!-- 插入右邊導覽選單 -->
+              {% include 'navbar-right.html' %}
+            </div>
+          </nav>
+        </div>
+
+        <!-- col-lg-6 .. card -->
+        <div class="col-lg-5 mb-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="h6 text-uppercase mb-0">昨日最新新聞瀏覽</h3>
+            </div>
+            <div class="card-body">
+              <div id="page_nav"></div>
+
+              <ul class="list-group" id="cate_news"></ul>
+            </div>
+          </div>
+        </div>
+        <!-- column -->
+
+        <div class="col-lg-7 mb-5">
+          <div class="row">
+            <!-- column col-lg-6 .. card -->
+            <div class="col-lg-12 mb-5">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="h6 text-uppercase mb-0">新聞內容</h3>
+                </div>
+                <div class="card-body">
+                  <!-- 顯示被點選的某一篇新聞詳細內容-->
+                  <ul id="news_content">
+                    點選新聞標題，新聞內容(部分內容)會顯示於此。
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- column -->
+
+            <!-- column col-lg- .. card -->
+            <div class="col-lg-12 mb-2">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="h6 text-uppercase mb-0">
+                    猜你喜歡(推薦與該則新聞最相似的新聞)
+                  </h3>
+                </div>
+                <div class="card-body">
+                  <!-- 顯示被點選的某一篇新聞的相關3篇新聞推薦-->
+                  <ul id="related_news">
+                    你可能感興趣的新聞會顯示在此。
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- column -->
+          </div>
+          <!-- row -->
+        </div>
+        <!-- right content area -->
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  // default user keywords
+  $("#input_keywords").val("");
+
+  // show news links info. when this page is loaded
+  show_news_link(); // based on the selected category
+
+  // on change event for category selection
+  $("#cate_select").on("change", function () {
+    show_news_link();
+  });
+  // on change event for category selection
+  $("#btn_keyword_search").on("click", function () {
+    show_news_link();
+  });
+
+  // function triggered when the news category is changed
+  function show_news_link() {
+    // remove previous "cate_news" by one of the following approaches:
+    // Approach 1: use jQuery statement
+    $("#cate_news").empty();
+    // Approach 2: use html statement
+    //var target_div = document.getElementById("cate_news");
+    //target_div.innerHTML = '';
+    //清空內容區clear_news_content();
+    clear_news_content();
+
+    // get category value and user input keywords
+    const cate = $("#cate_select").val();
+    const input_keywords = $("#input_keywords").val();
+
+    // Ajax
+    $.ajax({
+      type: "POST",
+      url: "api_query_keyword_cate_news/",
+      data: {
+        category: cate,
+        input_keywords: input_keywords,
+      },
+      success: function (received) {
+        // get latest categorical news
+        const items = received["latest_news"];
+
+        //console.log(items);
+        //查詢回傳新聞結果空的，直接return
+        //在python中若是None,在js中用 == null檢查
+        //在python中若是[],在js中用.length檢查長度
+        if ( items.length == 0) {
+          console.log("No articles!");
+          $("#cate_news").html("<h3>No articles!<h3>");
+          //target_div.innerHTML = '<h4>No data!<h4>';
+          return;
+        }
+
+        let html_div = document.createElement("div");
+        //let html_div = document.getElementById("cate_news");
+
+        // display all article list in "cate_news"
+        for (let i = 0; i < items.length; i++) {
+          // prepare html snippet for each news
+          let html_snippet = `<li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5><small><a class="read_it" news_id={0} href="#">{1}</a></small><h5>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="{2}" target="_blank">
+                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{3}" width="120">
+                                    </a>
+                                </div>
+                            </div>
+                        </li>`;
+          // insert news data to the html_snippet
+          html_snippet = html_snippet.format(
+            items[i].item_id,
+            items[i].title,
+            items[i].link,
+            items[i].photo_link
+          );
+          // paste every html_snippet into html_div
+          html_div.innerHTML += html_snippet;
+        }
+
+        // append the heml_div to display
+        $("#cate_news").append(html_div);
+        // or document.getElementById('cate_news').appendChild(html_div);
+
+        //clear the paging area
+        //$(".pagination-container-cate-news").empty();
+        // process pagination
+        //paginate_cate_news();
+      }, //success function
+    }); //ajax
+  }
+
+  // Remove the previous displayed news
+  function clear_news_content() {
+    $("#news_content").empty();
+    $("#related_news").empty();
+  }
+
+  // Define the on click function for every news link
+  // We must use a document event listener, because the read_it tags are dynamically generated.
+  // 針對整個頁面的監聽事件，對於動態產生的element也能監聽到
+  $(document).on("click", "a.read_it", function () {
+    //console.log('read this!'); //test if the event is triggered
+
+    // get news_id.
+    // "this" refer to the read_it html element as the following:
+    // <li><a class='read_it' news_id="cna_xxx"  href='#'>...</a></li>
+    // a.read_it指的是<a class="read_it" news_id={0} href="#">{1}</a>
+    // a tag內部有一個"read_it" class 這樣表達==> a.read_it
+    const item_id = $(this).attr("news_id");
+    //console.log(newsid); //news_id
+
+    // change the color of "this" html
+    $(this).css("background", "#d9f531");
+
+    // show the selected article content and topk similar article information
+    show_selected_article_content_and_recommendation(item_id);
+  });
+
+  // We could not define read_it event in advance. because read_it tag is dynamically generated when this page is loaded.
+  //以下這種寫法沒作用，由於read_it是動態產生的，這個事件無法被觸發!!
+  $(".read_it").click(function () {
+    //alert("this event will not be triggered!");
+  });
+
+  // Show the selected news content when the read_it event is triggered
+  function show_selected_article_content_and_recommendation(item_id) {
+    
+    //先清除顯示區
+    clear_news_content();
+
+    $.ajax({
+      type: "POST",
+      url: "api_news_content/",
+      data: {
+        item_id: item_id, // query by news_id
+      },
+      success: function (received) {
+        const item = received["news_content"]; // get news content
+        // const item = received.news_content; // the same
+
+        // the html element to display the new content
+        const display = $("#news_content");
+        //const display = document.getElementById("news_content"); // alternative way
+
+        // insert new line at the end of paragraph將新聞內容的句號等換成<br>break line換行符號
+        // g: global處理所有句號等
+        // m: multi lines處理文章內的很多行, see https://regex101.com/r/x2KaZP/1
+        html_content = item.content.replace(/(\r\n|\n|\r|。)/gm, "。<br><br>");
+
+        // display new content設定只顯示前12行內容
+        display.append("<li>類別:" + item.category + "</li>");
+        display.append(
+          "<p>標題:" + item.title + "(" + item.date + ")" + "</p>"
+        );
+        display.append(
+          "<p class = 'only-some-lines-text'>" + html_content + "</p>"
+        );
+        display.append("<a  href=" + item.link + " target='_blank'>連結</a>");
+
+        // display topk similar news based on the selected article
+        var items = received["related_news"];
+        var display_rel = document.getElementById("related_news");
+        for (var i = 0; i < items.length; i++) {
+          display_rel.innerHTML += "<li>" + items[i].category + "</li>";
+          display_rel.innerHTML += "<p>" + items[i].title + "</p>";
+          display_rel.innerHTML += "<p>相似度:" + items[i].score + "</p>";
+          display_rel.innerHTML +=
+            "<a  href=" + items[i].link + " target='_blank'>連結</a>";
+        }
+      },
+    }); //ajax
+  } //showArticle function
+
+  //Customize the String.format()
+  //reference: https://www.cnblogs.com/taoweiji/p/3260883.html
+
+  //"{0}----{1}".format("xx","yy")
+  String.prototype.format = function () {
+    var result = this;
+    if (arguments.length == 0) return null;
+    for (var i = 0; i < arguments.length; i++) {
+      var re = new RegExp("\\{" + i + "\\}", "gm");
+      result = result.replace(re, arguments[i]);
+    }
+    return result;
+  };
+</script>

@@ -1,0 +1,36 @@
+<ul class="nav navbar-nav navbar-right">
+
+    <li class="nav-item dropdown pl-2 mt-3">
+        <a
+          class="nav-link dropdown-toggle"
+          data-toggle="dropdown"
+          href="#"
+          role="button"
+          aria-haspopup="true"
+          aria-expanded="false"
+          >其他功能</a
+        >
+        <div class="dropdown-menu">
+          <a class="nav-link" href="{% url 'namespace_news_rcmd_bert:home' %}">新聞瀏覽與推薦(Bert)</a>
+          <a class="nav-link" href="{% url 'namespace_sentiment_bert:home' %}">新聞或文章情緒分類(Bert)</a>
+          <a class="nav-link" href="{% url 'namespace_news_classification_bert:home' %}">新聞分類(Bert)</a>
+          <div class="dropdown-divider"></div>
+          <a class="nav-link" href="{% url 'app_top_ner:home' %}">回到首頁</a>
+        </div>
+      </li>
+  <li class="nav-item dropdown pl-2 mt-3">
+    <a
+      class="nav-link dropdown-toggle"
+      data-toggle="dropdown"
+      href="#"
+      role="button"
+      aria-haspopup="true"
+      aria-expanded="false"
+      >會員</a
+    >
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="#">登入</a>
+      <a class="dropdown-item" href="#">註冊</a>
+    </div>
+  </li>
+</ul>
