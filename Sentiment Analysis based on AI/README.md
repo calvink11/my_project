@@ -9,6 +9,9 @@
 <img src="/Sentiment Analysis based on AI/attachment/attachment2.png" alt="isolated" 
 width="1200"/>
 <img src="/Sentiment Analysis based on AI/attachment/attachment3.png" alt="isolated" width="450"/>
+<img src="/Sentiment Analysis based on AI/attachment/attachment4.png" alt="isolated" width="450"/>
+<img src="/Sentiment Analysis based on AI/attachment/attachment5.png" alt="isolated" width="450"/>
+<img src="/Sentiment Analysis based on AI/attachment/attachment6.png" alt="isolated" width="450"/>
 4. Set up a Django server
 5. Create different functions on the website
 
