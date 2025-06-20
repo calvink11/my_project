@@ -17,4 +17,6 @@ width="1200"/>
 
 ### Display result
 * Function1: 
-<img src="/Sentiment Analysis based on AI/attachment/attachment7.png" alt="isolated" width="800"/>
+<img src="/Sentiment Analysis based on AI/attachment/attachment7.png" alt="isolated" width="700"/>
+* Function2: 
+<img src="/Sentiment Analysis based on AI/attachment/attachment8.png" alt="isolated" width="700"/>
