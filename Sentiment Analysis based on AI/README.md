@@ -7,7 +7,7 @@
 <img src="/Sentiment Analysis based on AI/attachment/attachment1.png" alt="isolated" width="500"/>
 3. Use data from database and use CKIP-style Chinese NLP tools to analyze and save a new table to database
 <img src="/Sentiment Analysis based on AI/attachment/attachment2.png" alt="isolated" 
-width="500"/>
+width="900"/>
 <img src="/Sentiment Analysis based on AI/attachment/attachment3.png" alt="isolated" width="500"/>
 4. Set up a Django server
 5. Create different functions on the website
