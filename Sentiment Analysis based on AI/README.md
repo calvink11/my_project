@@ -17,7 +17,7 @@ width="1200"/>
 
 ### Display result
 *   Function1: Analyze of Top person
-    ![](/Traffic_Sign_Recognition/attachment/attachment7.jpg)
+    ![](/Sentiment%20Analysis%20based%20on%20AI/attachment/attachment7.png)
     <img src="/Sentiment Analysis based on AI/attachment/attachment7.png" alt="left" width="700"/>
 *   Function2: 
     <img src="/Sentiment Analysis based on AI/attachment/attachment8.png" alt="left" width="700"/>
