@@ -17,10 +17,7 @@ width="1200"/>
 
 ### Display result
 *   Function1: Analyze of Top person
-    ![](/Sentiment%20Analysis%20based%20on%20AI/attachment/attachment7.png)
-    <img src="/Sentiment Analysis based on AI/attachment/attachment7.png" alt="left" width="700"/>
-*   Function2: 
-    <img src="/Sentiment Analysis based on AI/attachment/attachment8.png" alt="left" width="700"/>
+    ![top person](/Sentiment Analysis based on AI/attachment/attachment7.png)
+*   Function2: Analyze of Top keywords
+    ![top keyword](/Sentiment Analysis based on AI/attachment/attachment8.png)
 *   Function3: 
-    <img src="/Sentiment Analysis based on AI/attachment/attachment9.png" alt="left" width="700"/>
-
