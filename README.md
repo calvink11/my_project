@@ -4,6 +4,6 @@
 
 
 # Project
-* Traffic Signal Recognition
-* Sentiment Analysis basse on AI
-* Titanic
+* [Traffic Signal Recognition](/Traffic_Sign_Recognition/)
+* [Sentiment Analysis basse on AI](/Sentiment%20Analysis%20based%20on%20AI/)
+* [Titanic](/Titanic/)
