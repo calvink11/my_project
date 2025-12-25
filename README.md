@@ -1,6 +1,6 @@
 # Resume
 
-![](/Data_Science_Resume_10.06.2025.png)
+![](/Data_Science_Resume_24.12.2025.png)
 
 
 # Project
